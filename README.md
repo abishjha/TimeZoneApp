@@ -7,4 +7,4 @@ Additionally there are three different types of user: User, User Manager, and Ad
 2. User Manager => able to CRUD users.
 3. Admin => able to CRUD users and their time zones.
 
-This is a simple application (by login) but demonstrates good coding practices and MVC architecture with proper authentication, authorization, and a good app flow.
+This is a simple application (in terms of business logic) but demonstrates good coding practices and MVC architecture with proper authentication, authorization, and a good app flow.
