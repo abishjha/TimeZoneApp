@@ -1,0 +1,106 @@
+<div class="table-responsive" *ngIf="user.timeZones && user.timeZones.length != 0">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">City</th>
+        <th scope="col">Current Time</th>
+        <th scope="col">Difference (hrs)</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let timeZone of user.timeZones">
+        <td>{{timeZone.name}}</td>
+        <td>{{timeZone.city}}</td>
+        <td>{{timeZone.currTime}}</td>
+        <td>{{timeZone.differenceToBrowserTime}}</td>
+        <td (click)="selectedTimeZone = timeZone; open(timeZoneModal)">
+          <span class="material-icons" aria-hidden="true"> create </span>
+        </td>
+        <td (click)="selectedTimeZone = timeZone; open(deleteConfirmation)">
+          <span class="material-icons" aria-hidden="true"> delete </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<button type="button m-2" class="ml-auto mr-0 w-100 btn btn-outline-dark"
+  (click)="selectedTimeZone = null; open(timeZoneModal)">
+  Add Entry
+</button>
+
+<ng-template #timeZoneModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add/Update Time Zone</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="timeZoneForm">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" formControlName="name" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+        <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+          <div *ngIf="f.name.errors.required">Name is required</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="city">City</label>
+        <input type="text" formControlName="city" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.city.errors }" />
+        <div *ngIf="submitted && f.city.errors" class="invalid-feedback">
+          <div *ngIf="f.city.errors.required">City is required</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="differenceToGMT">Difference to GMT (hrs)</label>
+        <input type="number" min="-12" max="14" step="0.25" formControlName="differenceToGMT" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.differenceToGMT.errors }" />
+        <div *ngIf="submitted && f.differenceToGMT.errors" class="invalid-feedback">
+          <div *ngIf="f.differenceToGMT.errors.required">Difference to GMT is required</div>
+        </div>
+      </div>
+      <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+      <div *ngIf="success" class="alert alert-success mt-3 mb-0">{{success}}</div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button [disabled]="loading" class="btn btn-primary" (click)="onSubmit()">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+      <span *ngIf="!selectedTimeZone">Add</span>
+      <span *ngIf="selectedTimeZone">Update</span>
+    </button>
+    <button type="button" class="btn btn-outline-dark"
+      (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template>
+
+<ng-template #deleteConfirmation let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Delete Time Zone</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure you want to delete {{selectedTimeZone.name}}?</p>
+  </div>
+  <div *ngIf="success" class="alert alert-success mt-3 mb-0">{{success}}</div>
+  <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+  <div class="modal-footer">
+    <button [disabled]="loading" class="btn btn-primary btn-danger" (click)="onDelete()" *ngIf="!success">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+      Delete
+    </button>
+    <button type="button" class="btn btn-outline-dark"
+      (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template>
+
+<!-- <ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = ''">{{ successMessage }}</ngb-alert>
+<ngb-alert *ngIf="errorMessage" type="error" (close)="errorMessage = ''">{{ errorMessage }}</ngb-alert> -->

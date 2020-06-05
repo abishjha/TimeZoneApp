@@ -1,0 +1,18 @@
+﻿<div class="container my-4">
+    <h3>
+        You're logged in as {{currentUser.username}} ({{currentUser.role}})
+    </h3>
+    <div class="border-top my-3"></div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="search-text-field">Search</span>
+        </div>
+        <input type="text" class="form-control" [(ngModel)]="searchword" aria-label="Search"
+            aria-describedby="search-text-field" (input)="searchThis()">
+    </div>
+
+    <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
+
+    <user-table [users]="filteredUsers"></user-table>
+</div>

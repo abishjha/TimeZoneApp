@@ -1,0 +1,25 @@
+﻿<!-- nav -->
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+    <a class="navbar-brand" routerLink="/">Time Zone App</a>
+    <div class="navbar-nav ml-auto" *ngIf="!currentUser">
+        <a class="nav-item nav-link" routerLink="/login">Login</a>
+        <a class="nav-item btn btn-success" routerLink="/register">Register</a>
+        <!-- <a class="nav-item nav-link" routerLink="/register">Register</a> -->
+    </div>
+    <div class="navbar-nav ml-auto" *ngIf="currentUser">
+        <a class="nav-item nav-link" routerLink="/">Home</a>
+        <a class="nav-item nav-link" (click)="logout()">Logout</a>
+    </div>
+</nav>
+
+<!-- main app container -->
+<div class="container">
+    <router-outlet></router-outlet>
+</div>
+
+<!-- footer -->
+<!-- <footer id="sticky-footer" class="py-4 bg-dark text-white-50">
+    <div class="container text-center">
+        <small>Copyright &copy; Your Website</small>
+    </div>
+</footer> -->
